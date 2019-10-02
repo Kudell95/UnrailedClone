@@ -27,6 +27,6 @@ public class TopDownController : MonoBehaviour
 
         rb.MovePosition(transform.position + (movement * (Time.deltaTime * moveSpeed)));
 
-        
+        rb.velocity = Vector3.zero;
     }
 }
