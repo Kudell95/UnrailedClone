@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wood : Item
+public class Constants
 {
-    
+    public const float gridsize = 1;
 }

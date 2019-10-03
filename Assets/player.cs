@@ -10,15 +10,27 @@ public class player : MonoBehaviour
     
     public Transform itemHolder;
     public float OverlapSpheresize = 1f;
+    Collider[] hitcolliders;
 
-    void Upadte(){
-        Collider[] hitcolliders;
-        hitcolliders = Physics.OverlapSphere(itemHolder.position, OverlapSpheresize);
+    public LayerMask layer;
 
-        if(hitcolliders.Length > 0)
-        {
+    void Update(){
+        
+        hitcolliders = Physics.OverlapSphere(itemHolder.position, OverlapSpheresize, layer);
+
+        // int i = 0;
+        // while (i < hitcolliders.Length)
+        // {
+        //     Debug.Log("Item Found - " + hitcolliders[i].gameObject.name);
+        //     i++;
+        // }
+
+
+
+        // if(hitcolliders.Length > 0)
+        // {
             StartCoroutine(FindItemsToPickup(hitcolliders));
-        }
+        // }
         
     }
 
@@ -29,12 +41,14 @@ public class player : MonoBehaviour
         int i=0;
         while (i < hits.Length)
         {
-            hits[i].SendMessage("Item Found - " + hits[i].gameObject.name);
+            Debug.Log("Item Found - " + hits[i].gameObject.name);
             i++;
+            yield return null;
         }
 
 
-        yield return null;
+        yield return 0;
+       
     }
 
 }

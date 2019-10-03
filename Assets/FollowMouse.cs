@@ -14,16 +14,16 @@ public class FollowMouse : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit))
         {
-            
-            lookPos =   hit.point - this.transform.position;
-            lookPos.y = 0;
-            
-           
+            if(Vector3.Distance(hit.point, transform.position) > 1)
+            {
+                lookPos =   hit.point - this.transform.position;
+                lookPos.y = 0;
+                Quaternion lookrot = Quaternion.LookRotation(lookPos);
+                transform.transform.rotation = Quaternion.Slerp(transform.rotation, lookrot, Time.deltaTime * speed);
+
+            }
+                       
         }
-        if(Vector3.Distance(hit.point, transform.position) > 1)
-        {
-            Quaternion lookrot = Quaternion.LookRotation(lookPos);
-            transform.transform.rotation = Quaternion.Slerp(transform.rotation, lookrot, Time.deltaTime * speed);
-        }
+        
     }
 }
