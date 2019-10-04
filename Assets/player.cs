@@ -14,6 +14,8 @@ public class player : MonoBehaviour
 
     public LayerMask layer;
 
+    GameObject closestObject;
+
     void Update(){
         
         hitcolliders = Physics.OverlapSphere(itemHolder.position, OverlapSpheresize, layer);
@@ -29,7 +31,25 @@ public class player : MonoBehaviour
 
         // if(hitcolliders.Length > 0)
         // {
-            StartCoroutine(FindItemsToPickup(hitcolliders));
+
+            if(hitcolliders.Length > 0)
+            {
+                StartCoroutine(FindItemsToPickup(hitcolliders));
+            }
+
+
+
+            if(hitcolliders.Length == 0 && closestObject != null)
+            {
+                closestObject.GetComponent<Renderer>().material.color = new Color(0.45f,0.32f,0.2f, 1);
+                closestObject = null;
+            }
+
+            if(closestObject != null)
+            {
+                
+                closestObject.GetComponent<Renderer>().material.color = Color.white;
+            }
         // }
         
     }
@@ -41,8 +61,30 @@ public class player : MonoBehaviour
         int i=0;
         while (i < hits.Length)
         {
-            Debug.Log("Item Found - " + hits[i].gameObject.name);
+            Debug.Log(i + "Item Found - " + hits.Length);
+            
+            
+
+            if(closestObject == null)
+            {
+                closestObject = hits[i].gameObject;
+            }
+
+            if(Vector3.Distance(transform.position, hits[i].transform.position) < Vector3.Distance(transform.position, closestObject.transform.position))
+            {
+                closestObject = hits[i].gameObject;
+
+            }
+
+            
+
+            hits[i].gameObject.GetComponent<Renderer>().material.color = new Color(0.45f,0.32f,0.2f, 1);
+                
+            
+
+
             i++;
+
             yield return null;
         }
 
